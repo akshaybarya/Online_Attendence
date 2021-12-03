@@ -1,0 +1,12 @@
+.faculty-home {
+  /* text-align: center; */
+  height: 80vh;
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 3rem;
+}
+
+.faculty-home .section {
+  width: 100%;
+  padding: 0.5rem;
+}
