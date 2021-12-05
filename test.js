@@ -7,10 +7,12 @@ const w = async () => {
     await csv_to_JSON();
     await extractData();
     await categoryDivider();
-    console.log("Sucess!!");
+    console.log("Sucessfully Executed!!");
   } catch (e) {
     console.log(e.message);
   }
 };
 
-w();
+//w();
+
+module.exports = w;

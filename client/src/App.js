@@ -12,6 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Attendance />} />
         <Route path="/admin/upload-CSV" element={<Upload_CSV />} />
+        <Route path="/admin/register-user" element={<Upload_CSV />} />
         <Route path="/online" element={<FacultyHome />} />
         <Route path="/online/:id" element={<TeacherDetals />} />
         <Route path="/online/meeting/:id" element={<MeetingDetails />} />

@@ -13,12 +13,7 @@ module.exports = function (req, res, next) {
   try {
     const decoaded = jwt.verify(token, config.get("jwtSecret"));
 
-    if (
-      decoaded &&
-      decoaded.user &&
-      (decoaded.user.id === req.body.id ||
-        decoaded.user.id === config.get("admin"))
-    ) {
+    if (decoaded && decoaded.user && decoaded.user.id === config.get("admin")) {
       next();
     } else res.status(401).json({ msg: "You Dont Have Permission To View" });
   } catch (error) {

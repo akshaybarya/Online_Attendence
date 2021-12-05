@@ -7,6 +7,7 @@ const map1 = new Map();
 
 module.exports = async function () {
   const deployPath = path.join(__dirname, "category");
+  fs.ensureDir(deployPath);
   fs.removeSync(deployPath);
 
   for (let logs in Logs) {
