@@ -15,6 +15,7 @@ module.exports = function (req, res, next) {
 
     if (
       decoaded &&
+      req.body.id &&
       decoaded.user &&
       (decoaded.user.id === req.body.id ||
         decoaded.user.id === config.get("admin"))

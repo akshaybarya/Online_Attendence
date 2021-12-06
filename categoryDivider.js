@@ -23,13 +23,36 @@ module.exports = async function () {
     if (map1.has(x["Organizer Email"])) {
       let v = map1.get(x["Organizer Email"]);
       if (v.class)
-        v.class.push({ "Meeting Code": x["Meeting Code"], particapts });
+        v.class.push({
+          "Meeting Code": x["Meeting Code"],
+          "number of participants": particapts.length,
+          date: particapts[0].Date,
+          particapts,
+        });
       else {
-        v = { class: [{ "Meeting Code": x["Meeting Code"], particapts }] };
+        v = {
+          class: [
+            {
+              "Meeting Code": x["Meeting Code"],
+              "number of participants": particapts.length,
+              date: particapts[0].Date,
+              particapts,
+            },
+          ],
+        };
       }
       map1.set(x["Organizer Email"], v);
     } else {
-      let v = { class: [{ "Meeting Code": x["Meeting Code"], particapts }] };
+      let v = {
+        class: [
+          {
+            "Meeting Code": x["Meeting Code"],
+            "number of participants": particapts.length,
+            date: particapts[0].Date,
+            particapts,
+          },
+        ],
+      };
 
       map1.set(x["Organizer Email"], v);
     }

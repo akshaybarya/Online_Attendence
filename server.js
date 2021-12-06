@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const auth = require("./middleware/auth");
 const adminAuth = require("./middleware/adminAuth");
+const userAuth = require("./middleware/userAuth");
 const connectDB = require("./config/db");
 const Logs1 = require("./logs/Logs.json");
 const Logs2 = require("./category/Logs.json");
@@ -24,6 +25,19 @@ const csvFilePath = path.join(__dirname, "data", "CSV-Files", "meetLogs.csv");
 
 app.get("/", (req, res) => {
   res.send("This is home page.");
+});
+
+app.post("/", userAuth, async (req, res) => {
+  try {
+    let user = await User.findOne({ email: req.body.user });
+    //console.log(user.isAdmin);
+
+    res
+      .status(200)
+      .send({ name: user.name, email: user.email, isAdmin: user.isAdmin });
+  } catch (error) {
+    return res.status(400).json({ errors: [{ msg: error.message }] });
+  }
 });
 
 app.post("/add-csv", async (req, res) => {
@@ -58,6 +72,7 @@ app.post("/register", adminAuth, async (req, res) => {
       name,
       email,
       password,
+      isAdmin: false,
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -105,20 +120,34 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/meet_logs", async (req, res) => {
+app.get("/meet_logs", adminAuth, async (req, res) => {
   res.send(Logs1);
 });
 
-app.get("/category_logs", async (req, res) => {
+app.get("/category_logs", adminAuth, async (req, res) => {
   res.send(Logs2);
 });
 
-app.post(`/meeting_logs`, auth, async (req, res) => {
+app.post(`/meeting_logs`, userAuth, async (req, res) => {
   res.status(200).send(Logs1[req.body.id]);
 });
 
+app.post(`/attendence`, async (req, res) => {
+  const s = Logs1[req.body.id];
+  let data = [];
+  for (let row of s) {
+    if (row.Date) {
+      let temp = {
+        name: row["Participant Name"],
+      };
+      data.push(temp);
+    }
+  }
+  res.status(200).send(data);
+});
+
 app.post(`/teacher_logs`, auth, async (req, res) => {
-  res.send(Logs2[req.body.id]);
+  res.status(200).send(Logs2[req.body.id]);
 });
 
 app.listen(5000, () => {
