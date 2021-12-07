@@ -14,6 +14,7 @@ const connectDB = require("./config/db");
 const Logs1 = require("./logs/Logs.json");
 const Logs2 = require("./category/Logs.json");
 const User = require("./models/User");
+const Meeting = require("./models/Meeting");
 const test = require("./test");
 
 app.use(cors());
@@ -144,6 +145,60 @@ app.post(`/attendence`, async (req, res) => {
     }
   }
   res.status(200).send(data);
+});
+
+app.post(`/meeting/save`, userAuth, async (req, res) => {
+  try {
+    const { subject, user, meetings } = req.body;
+    let meeting = await Meeting.findOne({ name: subject, faculty: user });
+
+    if (meeting) {
+      let temp = meeting.meetings;
+      let uniq = [...new Set(temp.concat(meetings))];
+      meeting.meetings = uniq;
+    } else {
+      meeting = new Meeting({
+        name: subject,
+        faculty: user,
+        meetings,
+      });
+    }
+
+    await meeting.save();
+    res.status(200).send(meeting);
+  } catch (error) {
+    res.status(500).send("Cannot save meeting");
+  }
+});
+
+app.post(`/meeting/data`, userAuth, async (req, res) => {
+  try {
+    const { subject, user } = req.body;
+    let meeting = await Meeting.findOne({ name: subject, faculty: user });
+    res.send(meeting);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post(`/subjects`, userAuth, async (req, res) => {
+  try {
+    const { user } = req.body;
+    let meeting = await Meeting.find({ faculty: user });
+    res.send(meeting);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+app.post(`/subject`, userAuth, async (req, res) => {
+  try {
+    const { subject, user } = req.body;
+    let meeting = await Meeting.find({ faculty: user, name: subject });
+    res.send(meeting);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 app.post(`/teacher_logs`, auth, async (req, res) => {

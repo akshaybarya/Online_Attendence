@@ -37,10 +37,25 @@ const Header = () => {
             <Menu.Item>
               <Link to="/online/meeting">Meetings</Link>
             </Menu.Item>
+            {localStorage.getItem("isAdmin") !== "true" && (
+              <>
+                <Menu.Item>
+                  <Link to="/online/subjects">Subjects</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/online/add-subjects">Add Subjects</Link>
+                </Menu.Item>
+              </>
+            )}
             {localStorage.getItem("isAdmin") == "true" && (
-              <Menu.Item>
-                <Link to="/online/admin/upload-CSV">Upload CSV</Link>
-              </Menu.Item>
+              <>
+                <Menu.Item>
+                  <Link to="/online/admin/upload-CSV">Upload CSV</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/online/admin/register">Register User</Link>
+                </Menu.Item>
+              </>
             )}
             <Menu.Item>
               <a
