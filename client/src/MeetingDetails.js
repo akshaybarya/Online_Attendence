@@ -68,8 +68,6 @@ const MeetingDetails = () => {
     localStorage.getItem("isAdmin") !== "true"
   ) {
     return <Navigate to="/online/" />;
-  } else {
-    console.log("sx");
   }
 
   return (
