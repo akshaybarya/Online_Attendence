@@ -59,6 +59,11 @@ app.post("/add-csv", async (req, res) => {
   }
 });
 
+app.get("/add-csv", async (req, res) => {
+  res.send("File Uploaded!");
+  await test();
+});
+
 app.post("/register", adminAuth, async (req, res) => {
   try {
     const { name, email, password } = req.body;

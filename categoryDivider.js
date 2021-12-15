@@ -6,10 +6,6 @@ const path = require("path");
 const map1 = new Map();
 
 module.exports = async function () {
-  const deployPath = path.join(__dirname, "category");
-  fs.ensureDir(deployPath);
-  fs.removeSync(deployPath);
-
   for (let logs in Logs) {
     let temp = Logs[logs];
     let x = temp[0];
@@ -59,7 +55,6 @@ module.exports = async function () {
   }
 
   const obj = Object.fromEntries(map1);
-
   await fs.ensureDir("category");
   fs2.writeFileSync("./category/Logs.json", JSON.stringify(obj));
   console.log("success!");

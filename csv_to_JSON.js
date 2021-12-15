@@ -16,11 +16,6 @@ const w = async () => {
     };
 
     //console.log(meet_logs);
-    try {
-      await fsExtra.remove(jsonFilePath);
-    } catch (error) {
-      console.log(error);
-    }
 
     fs.writeFileSync(jsonFilePath, JSON.stringify(meet_logs));
 

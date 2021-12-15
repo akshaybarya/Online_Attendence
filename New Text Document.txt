@@ -1,0 +1,2 @@
+npm run server - to run Backend
+npm run client - to run Frontend
